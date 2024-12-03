@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-# car-connect
+# Car Connect
 An android application that helps students to find Carpool to get to the campus.
-=======
-# CarConnect
 
 ## Important External Links
 
@@ -43,24 +40,31 @@ Our platform, CarConnect, addresses the financial and social challenges faced by
 
 **Required Features**
 
-1. [fill in your required user features here]
-2. ...
-3. ...
+1. User registration / login
+2. Add schedule
+3. Request a ride
+4. Driver accept the request
+5. Match with driver pop-up
+6. Edit schedule
 
 **Optional Features**
 
-1. [fill in your optional user features here]
-2. ...
+1. Driver side off the app
+2. Ride History
 3. ...
 
 ### 2. Screen Archetypes
 
-- [list first screen here]
-    - [list associated required story here]
-    - ...
-- [list second screen here]
-    - [list associated required story here]
-    - ...
+- Sign-up / Login screen
+  - First time users or returning users are welcomed with the screen to enter their email. Email with the login link will be sent out immediately, it will provide a security, confirming `.edu` email meaning that only students can participate in the carpool or any stuff members.
+    - first time users after successful login will be welcomed with the screen to finish set-up their account.
+    - returning users will be welcomed with the first screen to request a ride. Also, returning users will be requested to relogin once in 4 month to confirm they are still a student.
+- Main Screen
+  - Request Ride
+- User Account / Profile
+  - Edit schedule
+  - Logout
+  - Delete Account
 
 ### 3. Navigation
 
