@@ -56,18 +56,30 @@ class LoginActivity: AppCompatActivity() {
 
     private fun registerUser(email: String) {
         val password = "user-password" // Replace afterwards
-        val user = auth.currentUser
-        user?.sendEmailVerification()?.addOnCompleteListener {
-                emailTask ->
-            if (emailTask.isSuccessful) {
-                Toast.makeText(this, "Verification email sent.", Toast.LENGTH_SHORT).show()
-                monitorEmailVerification()
-            }
-            else {
-                Toast.makeText(this, "Failed to send verification email.", Toast.LENGTH_SHORT).show()
+
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+            task ->
+            if (task.isSuccessful) {
+                val user = auth.currentUser
+                user?.sendEmailVerification()?.addOnCompleteListener { emailTask ->
+                    if (emailTask.isSuccessful) {
+                        Toast.makeText(this, "Verification email sent.", Toast.LENGTH_SHORT).show()
+                        monitorEmailVerification()
+                    } else {
+                        Toast.makeText(this, "Failed to send verification email.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else {
+                Toast.makeText(this, "Registration Failed.", Toast.LENGTH_SHORT).show()
             }
         }
-        // startActivity(Intent(this, RegistrationActivity::class.java));
+    }
+
+    private fun loginUser(email: String) {
+        // Redirect to form after verification
+        val intent = Intent(this, main_screen::class.java)
+        // Move to next page
+        startActivity(intent)
     }
 
     // Monitor Email Verification
@@ -76,11 +88,9 @@ class LoginActivity: AppCompatActivity() {
 
         if (user != null) {
             // Redirect to form after verification
-            // val intent = Intent(this, RegistrationFunctionActivity::class.java)
-            val intent = Intent(this, main_screen::class.java)
-
+            val intent = Intent(this, registration_screen::class.java)
             // Move to next page
-            //startActivity(intent)
+            startActivity(intent)
         } else {
             Toast.makeText(this, "Email verification not complete. Check your inbox.", Toast.LENGTH_SHORT).show()
         }
