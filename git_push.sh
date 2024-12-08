@@ -1,6 +1,6 @@
 #!/bin/bash
 
-branch="connect-firebase"
+branch="signup-login-page"
 
 # Prompt the user for input
 echo "Currently operating on branch: $branch"

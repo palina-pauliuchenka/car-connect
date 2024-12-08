@@ -17,57 +17,40 @@ class LoginActivity: AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        val emailEditText       = findViewById<EditText>(R.id.emailEditText)
-        val passwordEditText    = findViewById<EditText>(R.id.passwordEditText)
-        val loginButton         = findViewById<Button>(R.id.loginButton)
-        val registerButton      = findViewById<Button>(R.id.registerButton)
+        val emailInput          = findViewById<EditText>(R.id.emailEditText)
+        val loginSignupButton   = findViewById<Button>(R.id.loginSignupButton)
 
-        loginButton.setOnClickListener {
-            val email       = emailEditText.text.toString().trim()
-            val password    = passwordEditText.text.toString().trim()
+        loginSignupButton.setOnClickListener {
+            val email       = emailInput.text.toString().trim()
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                loginUser(email, password)
+            if (email.isEmpty()) {
+                Toast.makeText(this, "Please enter your university email address.", Toast.LENGTH_SHORT).show()
+            } else if(!email.endsWith(".edu")) {
+                Toast.makeText(this, "Only .edu email addresses are allowed.", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        registerButton.setOnClickListener {
-            val email = emailEditText.text.toString().trim()
-            val password = passwordEditText.text.toString().trim()
-
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                registerUser(email, password)
-            } else {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                // Toast.makeText(this, "Moving further", Toast.LENGTH_SHORT).show()
+                checkUserExists(email)
             }
         }
     }
 
-    private fun loginUser(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+    private fun checkUserExists(email: String) {
+        auth.fetchSignInMethodsForEmail(email).addOnCompleteListener {
             task ->
             if (task.isSuccessful) {
-                Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
-                // Navigate to another Screen
-            }
-            else {
-                Toast.makeText(this, "Login Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun registerUser(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-            task ->
-            if (task.isSuccessful) {
-                Toast.makeText(this, "Registration Successful!", Toast.LENGTH_SHORT).show()
-                // Navigate to another screen
+                val signInMethods = task.result?.signInMethods ?: emptyList<String>()
+                if (signInMethods.isNotEmpty()) {
+                    // User exists, redirect to Main Page
+                    Toast.makeText(this, "Welcome back!", Toast.LENGTH_SHORT).show()
+                    // startActivity(Intent(this, MainPageActivity::class.java));
+                } else {
+                    // User does not exist, redirect to Registration Page
+                    Toast.makeText(this, "Account not found. Redirecting to Registration.", Toast.LENGTH_SHORT).show()
+                    // startActivity(Intent(this, RegistrationActivity::class.java));
+                }
             } else {
-                Toast.makeText(this, "Registration Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
 }
