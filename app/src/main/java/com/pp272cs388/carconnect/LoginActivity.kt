@@ -46,11 +46,43 @@ class LoginActivity: AppCompatActivity() {
                 } else {
                     // User does not exist, redirect to Registration Page
                     Toast.makeText(this, "Account not found. Redirecting to Registration.", Toast.LENGTH_SHORT).show()
-                    // startActivity(Intent(this, RegistrationActivity::class.java));
+                    registerUser(email)
                 }
             } else {
                 Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun registerUser(email: String) {
+        val password = "user-password" // Replace afterwards
+        val user = auth.currentUser
+        user?.sendEmailVerification()?.addOnCompleteListener {
+                emailTask ->
+            if (emailTask.isSuccessful) {
+                Toast.makeText(this, "Verification email sent.", Toast.LENGTH_SHORT).show()
+                monitorEmailVerification()
+            }
+            else {
+                Toast.makeText(this, "Failed to send verification email.", Toast.LENGTH_SHORT).show()
+            }
+        }
+        // startActivity(Intent(this, RegistrationActivity::class.java));
+    }
+
+    // Monitor Email Verification
+    private fun monitorEmailVerification() {
+        val user = auth.currentUser
+
+        if (user != null) {
+            // Redirect to form after verification
+            // val intent = Intent(this, RegistrationFunctionActivity::class.java)
+            val intent = Intent(this, main_screen::class.java)
+
+            // Move to next page
+            //startActivity(intent)
+        } else {
+            Toast.makeText(this, "Email verification not complete. Check your inbox.", Toast.LENGTH_SHORT).show()
         }
     }
 }
