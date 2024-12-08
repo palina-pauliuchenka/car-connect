@@ -41,11 +41,9 @@ class LoginActivity: AppCompatActivity() {
                 val signInMethods = task.result?.signInMethods ?: emptyList<String>()
                 if (signInMethods.isNotEmpty()) {
                     // User exists, redirect to Main Page
-                    Toast.makeText(this, "Welcome back!", Toast.LENGTH_SHORT).show()
-                    // startActivity(Intent(this, MainPageActivity::class.java));
+                    loginUser(email)
                 } else {
                     // User does not exist, redirect to Registration Page
-                    Toast.makeText(this, "Account not found. Redirecting to Registration.", Toast.LENGTH_SHORT).show()
                     registerUser(email)
                 }
             } else {
@@ -55,6 +53,7 @@ class LoginActivity: AppCompatActivity() {
     }
 
     private fun registerUser(email: String) {
+        Toast.makeText(this, "Account not found. Redirecting to Registration.", Toast.LENGTH_SHORT).show()
         val password = "user-password" // Replace afterwards
 
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
@@ -64,6 +63,8 @@ class LoginActivity: AppCompatActivity() {
                 user?.sendEmailVerification()?.addOnCompleteListener { emailTask ->
                     if (emailTask.isSuccessful) {
                         Toast.makeText(this, "Verification email sent.", Toast.LENGTH_SHORT).show()
+
+                        // Monitor email verification
                         monitorEmailVerification()
                     } else {
                         Toast.makeText(this, "Failed to send verification email.", Toast.LENGTH_SHORT).show()
@@ -76,6 +77,8 @@ class LoginActivity: AppCompatActivity() {
     }
 
     private fun loginUser(email: String) {
+        Toast.makeText(this, "Welcome back!", Toast.LENGTH_SHORT).show()
+
         // Redirect to form after verification
         val intent = Intent(this, main_screen::class.java)
         // Move to next page
@@ -88,6 +91,7 @@ class LoginActivity: AppCompatActivity() {
 
         if (user != null) {
             // Redirect to form after verification
+            // val intent = Intent(this, registration_screen::class.java)
             val intent = Intent(this, registration_screen::class.java)
             // Move to next page
             startActivity(intent)
