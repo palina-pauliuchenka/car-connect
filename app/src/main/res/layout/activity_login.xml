@@ -62,14 +62,46 @@
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="66dp"
-        android:hint="eg: john@university.edu"
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:hint="Password"
         android:inputType="textEmailAddress" />
 
     <Button
-        android:id="@+id/loginSignupButton"
+        android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign-up / Login"
+        android:text="Login"
+        android:backgroundTint="#5C2D91"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="or"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:textColor="#898989"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#898989"
+        />
+
+    <Button
+        android:id="@+id/signupButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign-up"
         android:backgroundTint="#5C2D91"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
