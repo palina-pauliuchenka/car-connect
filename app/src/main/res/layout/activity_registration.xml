@@ -19,7 +19,16 @@
             android:inputType="textPersonName"
             android:layout_marginBottom="8dp" />
 
-        <!-- NJIT Email Address -->
+        <!-- Email -->
+        <EditText
+            android:id="@+id/emailInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:hint="eg. JohnDoe@njit.edu"
+            android:inputType="textEmailAddress" />
+
+        <!-- Password -->
         <EditText
             android:id="@+id/passwordInput"
             android:layout_width="match_parent"
@@ -28,16 +37,6 @@
             android:inputType="textPassword"
             android:layout_marginBottom="8dp" />
 
-        <!-- Password -->
-        <EditText
-            android:id="@+id/emailInput"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="NJIT Email Address"
-            android:inputType="textEmailAddress"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Phone Number -->
         <EditText
             android:id="@+id/phoneNumberInput"
             android:layout_width="match_parent"
@@ -46,6 +45,16 @@
             android:inputType="phone"
             android:layout_marginBottom="8dp" />
 
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Do you want to drive CarConnect?"
+            android:textSize="11sp"
+            android:layout_marginTop="15dp"
+            android:lineSpacingExtra="3dp"
+            />
+
         <!-- Do you want to drive CarConnect? -->
         <Spinner
             android:id="@+id/driveSpinner"
@@ -53,6 +62,16 @@
             android:layout_height="50dp"
             android:entries="@array/drive_options"
             android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preferred Gender to ride with"
+            android:textSize="11sp"
+            android:layout_marginTop="15dp"
+            android:lineSpacingExtra="3dp"
+            />
 
         <!-- Preferred Gender -->
         <Spinner
