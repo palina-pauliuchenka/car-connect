@@ -1,6 +1,6 @@
 #!/bin/bash
 
-branch="signup-login-page"
+branch="signup-up-form"
 
 # Prompt the user for input
 echo "Currently operating on branch: $branch"

@@ -1,18 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#A6C9F1">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Registration Page"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="155dp"
-        tools:ignore="MissingConstraints" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Full Name -->
+        <EditText
+            android:id="@+id/fullNameInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Full Name"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="8dp" />
+
+        <!-- NJIT Email Address -->
+        <EditText
+            android:id="@+id/passwordInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Password -->
+        <EditText
+            android:id="@+id/emailInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="NJIT Email Address"
+            android:inputType="textEmailAddress"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Phone Number -->
+        <EditText
+            android:id="@+id/phoneNumberInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Do you want to drive CarConnect? -->
+        <Spinner
+            android:id="@+id/driveSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:entries="@array/drive_options"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Preferred Gender -->
+        <Spinner
+            android:id="@+id/genderSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:entries="@array/gender_options"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Home Pickup Address -->
+        <EditText
+            android:id="@+id/homeAddressInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Home Pickup Address"
+            android:inputType="textPostalAddress"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Schedule -->
+        <!--<Button
+            android:id="@+id/scheduleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter Your Schedule"
+            android:layout_marginBottom="8dp" />-->
+
+        <!-- Profile Image -->
+        <!--<Button
+            android:id="@+id/profileImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter Profile Image"
+            android:layout_marginBottom="8dp" />-->
+
+        <!-- Create Account -->
+        <Button
+            android:id="@+id/createAccountButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Account"
+            android:backgroundTint="#5C2D91"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>
