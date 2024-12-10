@@ -1,7 +1,9 @@
 package com.pp272cs388.carconnect
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
@@ -12,16 +14,22 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 class registration_screen : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
+    private lateinit var storage: FirebaseStorage
+    private var profileImageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
         auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         // Initialize Views
         val fullName_asset = findViewById<EditText>(R.id.fullNameInput)
@@ -43,22 +51,10 @@ class registration_screen : AppCompatActivity() {
             val genderPreference = genderSpinner_asset.selectedItem.toString()
             val homeAddress = homeAddress_asset.text.toString().trim()
 
-            if (validateInputs(email, password)) {
-                signUpUser(fullName, email, password, phoneNumber, driveChoice, genderPreference, homeAddress)
-            }
+            signUpUser(fullName, email, password, phoneNumber, driveChoice, genderPreference, homeAddress)
         }
 
     }
-
-    // Validate email and password inputs
-    private fun validateInputs(email: String, password: String): Boolean {
-        if (email.isEmpty() || !email.endsWith(".edu")) {
-            Toast.makeText(this, "Please enter a valid university email address.", Toast.LENGTH_SHORT).show()
-            return false
-        }
-        return true
-    }
-
 
     // Sign-Up New User
     private fun signUpUser(fullName: String,
@@ -86,6 +82,28 @@ class registration_screen : AppCompatActivity() {
                         }
                 } else {
                     Toast.makeText(this, "Sign-up failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        val userId = auth.currentUser?.uid ?: return
+
+        val userProfile = hashMapOf(
+            "fullName" to fullName,
+            "email" to email,
+            "phoneNumber" to phoneNumber,
+            "driveChoice" to driveChoice,
+            "genderPreference" to genderPreference,
+            "homeAddress" to homeAddress,
+        )
+
+        firestore.collection("users").document(userId).set(userProfile)
+            .addOnCompleteListener {
+                task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    Toast.makeText(this, "Failed to create account: ${task.exception?.message}!", Toast.LENGTH_SHORT).show()
                 }
             }
     }
