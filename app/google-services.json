@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "151602720569",
+    "project_id": "njit-car-connect",
+    "storage_bucket": "njit-car-connect.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151602720569:android:8b5939f612412ff649c2e8",
+        "android_client_info": {
+          "package_name": "com.pp272cs388.carconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDz4P-QjW8E8owIjspfW9K_FQjPxNhbn08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
