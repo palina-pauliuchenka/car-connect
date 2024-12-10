@@ -4,8 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.pp272cs388.carconnect.main_screen_dir.HomeFragment
+import com.pp272cs388.carconnect.main_screen_dir.ProfileFragment
 
-class MainActivity : AppCompatActivity() {
+class main_screen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,10 +20,10 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(HomeFragment())
                     true
                 }
-                R.id.nav_ride_history -> {
+                /*R.id.nav_ride_history -> {
                     loadFragment(RideHistoryFragment())
                     true
-                }
+                }*/
                 R.id.nav_profile -> {
                     loadFragment(ProfileFragment())
                     true
