@@ -36,12 +36,7 @@ class login_signup_screen : AppCompatActivity() {
 
         // Sign-Up Button Click Listener
         signUpButton.setOnClickListener {
-            val email = emailInput.text.toString().trim()
-            val password = passwordInput.text.toString().trim()
-
-            if (validateInputs(email, password)) {
-                signUpUser(email, password)
-            }
+             signUpUser()
         }
     }
 
@@ -75,27 +70,7 @@ class login_signup_screen : AppCompatActivity() {
     }
 
     // Sign-Up New User
-    private fun signUpUser(email: String, password: String) {
+    private fun signUpUser() {
         startActivity(Intent(this, registration_screen::class.java))
-
-        /*auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    user?.sendEmailVerification()
-                        ?.addOnCompleteListener { emailTask ->
-                            if (emailTask.isSuccessful) {
-                                Toast.makeText(this, "Sign-up successful! Verification email sent.", Toast.LENGTH_SHORT).show()
-                                // Clear input fields
-                                findViewById<EditText>(R.id.emailEditText).text.clear()
-                                findViewById<EditText>(R.id.passwordEditText).text.clear()
-                            } else {
-                                Toast.makeText(this, "Failed to send verification email.", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                } else {
-                    Toast.makeText(this, "Sign-up failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                }
-            }*/
     }
 }
