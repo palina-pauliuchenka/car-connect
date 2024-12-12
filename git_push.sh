@@ -1,6 +1,6 @@
 #!/bin/bash
 
-branch="main-screen"
+branch="ride-history"
 
 # Prompt the user for input
 echo "Currently operating on branch: $branch"
