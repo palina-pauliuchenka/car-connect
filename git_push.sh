@@ -1,6 +1,6 @@
 #!/bin/bash
 
-branch="ride-history"
+branch="user-schedule-form"
 
 # Prompt the user for input
 echo "Currently operating on branch: $branch"
