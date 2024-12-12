@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.pp272cs388.carconnect.R
@@ -62,7 +63,7 @@ class RideHistoryFragment : Fragment() {
                         rideHistoryList.clear()
                         for (ride in rideHistory) {
                             val destination = ride["destination"] as? String ?: "Unknown Destination"
-                            val eta = ride["ETA"] as? String ?: "Unknown ETA"
+                            val eta = (ride["ETA"] as? Timestamp).toString() ?: "Unknown ETA"
 
                             val name = if (driveChoice == "Yes") {
                                 ride["pedName"] as? String ?: "Unknown Passenger"

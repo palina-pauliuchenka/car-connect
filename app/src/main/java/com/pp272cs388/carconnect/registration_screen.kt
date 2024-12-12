@@ -91,7 +91,8 @@ class registration_screen : AppCompatActivity() {
             "phoneNumber" to phoneNumber,
             "driveChoice" to driveChoice,
             "genderPreference" to genderPreference,
-            "homeAddress" to homeAddress
+            "homeAddress" to homeAddress,
+            "rideHistory" to emptyList<Any>()
         )
 
         firestore.collection("users").document(userId).set(userProfile)
