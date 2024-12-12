@@ -1,5 +1,9 @@
 package com.pp272cs388.carconnect.main_screen_dir
 
+import java.text.SimpleDateFormat
+import java.util.*
+import com.google.firebase.Timestamp
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,10 +13,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.Timestamp
+// import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.pp272cs388.carconnect.R
+// import java.text.SimpleDateFormat
+import java.util.Locale
 
 data class RideHistoryItem(
     val name: String,
@@ -27,6 +33,40 @@ class RideHistoryFragment : Fragment() {
     private lateinit var rideHistoryRecyclerView: RecyclerView
     private val rideHistoryList = mutableListOf<RideHistoryItem>()
     private lateinit var rideHistoryAdapter: RideHistoryAdapter
+
+
+    private fun formatTimestamp(timestamp: Timestamp): String {
+        // Convert Firebase Timestamp to Date
+        val date = timestamp.toDate()
+
+        // Format the date to desired string
+        val dateFormat = SimpleDateFormat("EEEE MMMM d 'at' h:mm a", Locale.ENGLISH)
+        val formattedDate = dateFormat.format(date)
+
+        // Add the suffix for the day (st, nd, rd, th)
+        val day = SimpleDateFormat("d", Locale.ENGLISH).format(date).toInt()
+        val daySuffix = getDaySuffix(day)
+
+        return formattedDate.replace(" $day ", " $day$daySuffix ")
+    }
+
+    fun getDaySuffix(day: Int): String {
+        return when {
+            day in 11..13 -> "th" // Special case for 11th, 12th, 13th
+            day % 10 == 1 -> "st"
+            day % 10 == 2 -> "nd"
+            day % 10 == 3 -> "rd"
+            else -> "th"
+        }
+    }
+
+    // Usage Example
+    fun main() {
+        val firebaseTimestamp = Timestamp.now() // Example timestamp
+        val formattedDate = formatTimestamp(firebaseTimestamp)
+        println(formattedDate) // Example output: "Friday November 8th at 2:15PM"
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +103,7 @@ class RideHistoryFragment : Fragment() {
                         rideHistoryList.clear()
                         for (ride in rideHistory) {
                             val destination = ride["destination"] as? String ?: "Unknown Destination"
-                            val eta = (ride["ETA"] as? Timestamp).toString() ?: "Unknown ETA"
+                            val eta = (ride["ETA"] as? Timestamp)?.let { formatTimestamp(it) } ?: "Unknown ETA"
 
                             val name = if (driveChoice == "Yes") {
                                 ride["pedName"] as? String ?: "Unknown Passenger"
