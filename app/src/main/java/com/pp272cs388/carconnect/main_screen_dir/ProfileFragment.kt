@@ -1,6 +1,7 @@
 package com.pp272cs388.carconnect.main_screen_dir
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,28 @@ class ProfileFragment : Fragment() {
 
         // Fetch user information from Firestore
         val userId = auth.currentUser?.uid
+
+        if (userId != null) {
+            FirebaseFirestore.getInstance().collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        Log.d("FirestoreDebug", "Document retrieved: ${document.data}")
+                        // Extract fields
+                        val fullName = document.getString("fullName") ?: "N/A"
+                        val email = document.getString("email") ?: "N/A"
+                        // Update your UI
+                    } else {
+                        Log.d("FirestoreDebug", "No document found for user ID: $userId")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("FirestoreDebug", "Error fetching document: ${exception.message}")
+                }
+        } else {
+            Log.d("FirestoreDebug", "User ID is null. User might not be logged in.")
+        }
+
+
         if (userId != null) {
             firestore.collection("users").document(userId).get()
                 .addOnSuccessListener { document ->
@@ -50,6 +73,7 @@ class ProfileFragment : Fragment() {
                             Drive Choice: $driveChoice
                             Gender Preference: $genderPreference
                         """.trimIndent()
+
                         profileInfoTextView.text = profileInfo
                     } else {
                         profileInfoTextView.text = "No profile information available."
