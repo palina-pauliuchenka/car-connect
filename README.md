@@ -4,7 +4,8 @@ An android application that helps students to find Carpool to get to the campus.
 ## Important External Links
 
 - [Project Managment (Kanban)](https://github.com/users/palina-pauliuchenka/projects/18/views/1)
-- [HackMD](https://hackmd.io/s/rkKy8cQ7ye)
+- [HackMD - Overview](https://hackmd.io/@car-connect/Bkm0vc77kx)
+- [HackMD - Brainstorming](https://hackmd.io/@car-connect/SyYqO5Q7kl)
 
 ## Table of Contents
 
@@ -26,13 +27,16 @@ Our platform, CarConnect, addresses the financial and social challenges faced by
 
 ### App Evaluation
 
-[Evaluation of your app across the following attributes]
-- **Category:**
-- **Mobile:**
-- **Story:**
-- **Market:**
-- **Habit:**
-- **Scope:**
+- **Category:** Car Sharing / Transportation
+- **Mobile:** Primarily a mobile-first platform with a user-friendly phone application designed for easy ride organization and communication.
+- **Story:** CarConnect allows college students to organize or join carpools, helping them reduce transportation costs and build connections with peers. It emphasizes affordability, safety, and fostering community by providing a secure way to share rides to campus and back.
+- **Market:** Targeted towards off-campus college students who commute to campus regularly. It is particularly appealing to students looking to save on transportation costs, travel safely, and expand their social network by meeting fellow students.
+- **Habit:** Students can frequently use the app to organize or join rides daily or weekly, depending on their class schedules. The app encourages regular engagement through features like recurring ride schedules, in-app notifications for ride availability, and incentives for consistent usage (e.g., cost-sharing summaries or badges for frequent carpoolers).
+- **Scope:** Initially focused on connecting students for basic campus commutes, the app can expand to include additional features  such as `(out of our scope)`:
+  - Real-time ride tracking.
+  - Advanced scheduling options for group trips.
+  - Integration with campus event schedules for better accessibility to events.
+  - Partnerships with universities to provide exclusive perks, such as discounted parking for carpool participants or integration with student IDs.
 
 ## Product Spec
 
@@ -51,7 +55,7 @@ Our platform, CarConnect, addresses the financial and social challenges faced by
 
 1. Driver side off the app
 2. Ride History
-3. ...
+3. Map Navigation
 
 ### 2. Screen Archetypes
 
@@ -101,4 +105,46 @@ Our platform, CarConnect, addresses the financial and social challenges faced by
 Link to the [gif](https://drive.google.com/file/d/1z6ON4MYPO6cLzbcew78coQjVATJ2Lc8p/view?usp=share_link) that displays figma prototype.
 
 <br>
->>>>>>> 749e0eb (initial commit)
+
+
+
+# Milestone 2 - Build Sprint 1 (Unit 8)
+
+
+## GitHub Project board
+
+[Add screenshot of your Project Board with three milestones visible in
+this section]
+!(https://hackmd.io/_uploads/Hyl9_C3XJe.png)
+
+## Issue cards
+
+- [Add screenshot of your Project Board with the issues that you've been working on for this unit's milestone] <img src="![Screenshot 2024-12-03 at 2.15.10 PM](https://hackmd.io/_uploads/S1NR_A2myg.png)
+  " width=600>
+- [Add screenshot of your Project Board with the issues that you're working on in the **NEXT sprint**. It should include issues for next unit with assigned owners.] <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+
+## Issues worked on this sprint
+
+- List the issues you completed this sprint
+- [Add giphy that shows current build progress for Milestone 2. Note: We will be looking for progression of work between Milestone 2 and 3. Make sure your giphys are not duplicated and clearly show the change from Sprint 1 to 2.]
+
+<br>
+
+# Milestone 3 - Build Sprint 2 (Unit 9)
+
+## GitHub Project board
+
+[Add screenshot of your Project Board with the updated status of issues for Milestone 3. Note that these should include the updated issues you worked on for this sprint and not be a duplicate of Milestone 2 Project board.] <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+
+## Completed user stories
+
+- List the completed user stories from this unit
+- List any pending user stories / any user stories you decided to cut
+  from the original requirements
+
+[Add video/gif of your current application that shows build progress]
+<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+
+## App Demo Video
+
+- Embed the YouTube/Vimeo link of your Completed Demo Day prep video
