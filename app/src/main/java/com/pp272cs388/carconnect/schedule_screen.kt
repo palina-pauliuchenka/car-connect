@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
@@ -76,21 +78,33 @@ class schedule_screen : AppCompatActivity() {
         }
     }
 
+    private fun fetchPedestrians(date: String, time: String, destination: String) {
+
+    }
+
     private fun fetchDrivers(date: String, time: String, destination: String) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
         firestore.collection("users")
             .whereEqualTo("driveChoice", "Yes")
             .get()
             .addOnSuccessListener { querySnapshot ->
                 val drivers = mutableListOf<String>()
                 for (document in querySnapshot) {
+                    if (document.id == userId) {
+                        continue
+                    }
+
                     val carName = document.getString("carName") ?: "Unknown Car"
                     val fullName = document.getString("fullName") ?: "Unknown Driver"
                     drivers.add("$fullName - $carName")
                 }
 
                 if (drivers.isNotEmpty()) {
+                    // Display the drivers
                     showDrivers(drivers)
                 } else {
+                    // No available drivers
                     Toast.makeText(this, "No available drivers found.", Toast.LENGTH_SHORT).show()
                 }
             }
