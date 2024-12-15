@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,7 +32,7 @@ class schedule_screen : AppCompatActivity() {
         val submitButton = findViewById<Button>(R.id.submitButton)
 
         // Populate spinner with destinations (home or school)
-        val destinations = arrayOf("Home", "School")
+        val destinations = arrayOf("141 Summit St. 07103", "156-182 Warren St. 07102") // Home, School
         val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, destinations)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         destinationSpinner.adapter = spinnerAdapter
@@ -90,18 +91,25 @@ class schedule_screen : AppCompatActivity() {
             .get()
             .addOnSuccessListener { querySnapshot ->
                 val drivers = mutableListOf<String>()
+                var carName = ""
+                var driverName = ""
+                var driverId = ""
+                var destination = ""
                 for (document in querySnapshot) {
                     if (document.id == userId) {
                         continue
                     }
 
-                    val carName = document.getString("carName") ?: "Unknown Car"
-                    val fullName = document.getString("fullName") ?: "Unknown Driver"
-                    drivers.add("$fullName - $carName")
+                    carName = document.getString("carName") ?: "Unknown Car"
+                    driverName = document.getString("fullName") ?: "Unknown Driver"
+                    driverId = document.id
+                    destination = des
+                    drivers.add("$driverName - $carName")
                 }
 
                 if (drivers.isNotEmpty()) {
-                    // Display the drivers
+                    // Display and save the drivers
+                    updateRideHistory(userId, driverName, driverId, "156 Summit str.")
                     showDrivers(drivers)
                 } else {
                     // No available drivers
@@ -113,6 +121,33 @@ class schedule_screen : AppCompatActivity() {
                 Toast.makeText(this, "Failed to fetch drivers.", Toast.LENGTH_SHORT).show()
             }
     }
+
+    private fun updateRideHistory(currentUserId: String?, driverName: String, driverId: String, selectedDestination: String) {
+        if (currentUserId == null) {
+            Toast.makeText(this, "No user is logged in.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Create a new ride entry
+        val rideEntry = mapOf(
+            "ETA" to selectedTime,
+            "destination" to selectedDestination,
+            "driverId" to driverId,
+            "driverName" to driverName
+        )
+
+        // Add to the current user's rideHistory
+        val userRef = firestore.collection("users").document(currentUserId)
+        userRef.update("rideHistory", FieldValue.arrayUnion(rideEntry))
+            .addOnSuccessListener {
+                Toast.makeText(this, "Ride history updated successfully!", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { exception ->
+                Log.e("FirestoreError", "Error updating ride history: ${exception.message}")
+                Toast.makeText(this, "Failed to update ride history.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
 
     private fun showDrivers(drivers: List<String>) {
         val builder = AlertDialog.Builder(this)
