@@ -1,18 +1,128 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#A6C9F1">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Registration Page"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="155dp"
-        tools:ignore="MissingConstraints" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Full Name -->
+        <EditText
+            android:id="@+id/fullNameInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Full Name"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Email -->
+        <EditText
+            android:id="@+id/emailInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:hint="eg. JohnDoe@njit.edu"
+            android:inputType="textEmailAddress" />
+
+        <!-- Password -->
+        <EditText
+            android:id="@+id/passwordInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/phoneNumberInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Do you want to drive CarConnect?"
+            android:textSize="11sp"
+            android:layout_marginTop="15dp"
+            android:lineSpacingExtra="3dp"
+            />
+
+        <!-- Do you want to drive CarConnect? -->
+        <Spinner
+            android:id="@+id/driveSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:entries="@array/drive_options"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/enter_car_details_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter Car Details"
+            android:visibility="gone"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preferred Gender to ride with"
+            android:textSize="11sp"
+            android:layout_marginTop="15dp"
+            android:lineSpacingExtra="3dp"
+            />
+
+        <!-- Preferred Gender -->
+        <Spinner
+            android:id="@+id/genderSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:entries="@array/gender_options"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Home Pickup Address -->
+        <EditText
+            android:id="@+id/homeAddressInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Home Pickup Address"
+            android:inputType="textPostalAddress"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Schedule -->
+        <!--<Button
+            android:id="@+id/scheduleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter Your Schedule"
+            android:layout_marginBottom="8dp" />-->
+
+        <!-- Profile Image -->
+        <!--<Button
+            android:id="@+id/profileImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter Profile Image"
+            android:layout_marginBottom="8dp" />-->
+
+        <!-- Create Account -->
+        <Button
+            android:id="@+id/createAccountButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Account"
+            android:backgroundTint="#5C2D91"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>

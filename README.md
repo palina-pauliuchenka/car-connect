@@ -61,8 +61,8 @@ Our platform, CarConnect, addresses the financial and social challenges faced by
 
 - Sign-up / Login screen
   - First time users or returning users are welcomed with the screen to enter their email. Email with the login link will be sent out immediately, it will provide a security, confirming `.edu` email meaning that only students can participate in the carpool or any stuff members.
-    - first time users after successful login will be welcomed with the screen to finish set-up their account.
-    - returning users will be welcomed with the first screen to request a ride. Also, returning users will be requested to relogin once in 4 month to confirm they are still a student.
+  - first time users after successful login will be welcomed with the screen to finish set-up their account.
+  - returning users will be welcomed with the first screen to request a ride. Also, returning users will be requested to relogin once in 4 month to confirm they are still a student.
 - Main Screen
   - Request Ride
 - User Account / Profile
@@ -109,6 +109,24 @@ Our platform, CarConnect, addresses the financial and social challenges faced by
 
 ## GitHub Project board
 
+
+[Add screenshot of your Project Board with three milestones visible in
+this section]
+!(https://hackmd.io/_uploads/Hyl9_C3XJe.png)
+
+## Issue cards
+
+- [Add screenshot of your Project Board with the issues that you've been working on for this unit's milestone] <img src="![Screenshot 2024-12-03 at 2.15.10 PM](https://hackmd.io/_uploads/S1NR_A2myg.png)
+  " width=600>
+- [Add screenshot of your Project Board with the issues that you're working on in the **NEXT sprint**. It should include issues for next unit with assigned owners.] <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+
+## Issues worked on this sprint
+
+- List the issues you completed this sprint
+- [Add giphy that shows current build progress for Milestone 2. Note: We will be looking for progression of work between Milestone 2 and 3. Make sure your giphys are not duplicated and clearly show the change from Sprint 1 to 2.]
+
+<br>
+
 ## Issue cards
 
 ![Screenshot 2024-12-03 at 2.15.10 PM](https://hackmd.io/_uploads/S1NR_A2myg.png)
@@ -126,6 +144,7 @@ Our platform, CarConnect, addresses the financial and social challenges faced by
 ## GitHub Project board
 
 ![milestone image](milestone3.png)
+
 
 ## Completed user stories
 
