@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -16,8 +17,30 @@
         android:layout_margin="16dp" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
+        android:id="@+id/accept_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Accept Ride!" />
+        android:layout_gravity="center"
+        android:backgroundTint="@color/accept_button_background"
+        android:fontFamily="sans-serif"
+        android:padding="12dp"
+        android:text="Accept Ride"
+        android:textColor="@color/white"
+        android:textFontWeight="@android:integer/config_longAnimTime"
+        android:textSize="18sp"
+        tools:ignore="ExtraText" />
+
+    <Button
+        android:id="@+id/deny_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/deny_button_background"
+        android:fontFamily="sans-serif"
+        android:padding="12dp"
+        android:text="Deny"
+        android:textColor="@color/white"
+        android:textFontWeight="@android:integer/config_longAnimTime"
+        android:textSize="18sp"
+        tools:ignore="ExtraText" />
 </LinearLayout>
