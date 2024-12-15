@@ -105,7 +105,8 @@ class RideHistoryFragment : Fragment() {
                             val destination = ride["destination"] as? String ?: "Unknown Destination"
                             val eta = (ride["ETA"] as? Timestamp)?.let { formatTimestamp(it) } ?: "Unknown ETA"
 
-                            val name = if (driveChoice == "Yes") {
+
+                            val name = if (ride.containsKey("pedName")) {
                                 ride["pedName"] as? String ?: "Unknown Passenger"
                             } else {
                                 ride["driverName"] as? String ?: "Unknown Driver"

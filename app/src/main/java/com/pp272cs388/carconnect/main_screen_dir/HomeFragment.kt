@@ -1,5 +1,6 @@
 package com.pp272cs388.carconnect.main_screen_dir
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.pp272cs388.carconnect.R
+import com.pp272cs388.carconnect.main_screen
+import com.pp272cs388.carconnect.schedule_screen
 
 class HomeFragment : Fragment() {
 
@@ -41,6 +44,21 @@ class HomeFragment : Fragment() {
                     findPassengerButton.visibility = View.GONE
                 }
             }
+        }
+
+        findRideButton.setOnClickListener {
+            val intent = Intent(requireContext(), schedule_screen::class.java)
+
+            // Pass parameters using putExtra (key-value pairs)
+            intent.putExtra("PARAM_KEY", "Pedestrian")
+            startActivity(intent)
+        }
+        findPassengerButton.setOnClickListener {
+            val intent = Intent(requireContext(), schedule_screen::class.java)
+
+            // Pass parameters using putExtra (key-value pairs)
+            intent.putExtra("PARAM_KEY", "Driver")
+            startActivity(intent)
         }
 
         return view
