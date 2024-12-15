@@ -22,7 +22,7 @@ class schedule_screen : AppCompatActivity() {
     private lateinit var firestore: FirebaseFirestore
     private lateinit var selectedDate: String
     private lateinit var selectedTime: String
-    private lateinit var userName: String
+    private var userName: String = "N/A"
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +45,9 @@ class schedule_screen : AppCompatActivity() {
         destinationSpinner.adapter = spinnerAdapter
 
 
-        val currentUserId = auth.currentUser?.uid ?: ""
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        Toast.makeText(this, "${currentUserId}", Toast.LENGTH_SHORT).show()
+
         firestore.collection("users").document(currentUserId).get()
             .addOnSuccessListener { document ->
                 if (document != null && document.exists()) {
@@ -160,7 +162,7 @@ class schedule_screen : AppCompatActivity() {
                     // Display and save the drivers
                     updateRideHistory(userId, driverName, driverId, destination, eta, true)
                     updateRideHistory(driverId, userName, userId, destination, eta, false)
-                    // showDrivers(drivers)
+                    showDrivers(drivers)
 
                 } else {
                     // No available drivers
