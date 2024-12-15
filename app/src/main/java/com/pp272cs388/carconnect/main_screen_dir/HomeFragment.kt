@@ -47,7 +47,12 @@ class HomeFragment : Fragment() {
         }
 
         findRideButton.setOnClickListener {
-            startActivity(Intent(requireContext(), schedule_screen::class.java))
+            val intent = Intent(requireContext(), schedule_screen::class.java)
+
+            // Pass parameters using putExtra (key-value pairs)
+            intent.putExtra("PARAM_KEY", "Pedestrian")
+
+            startActivity(intent)
         }
 
         return view

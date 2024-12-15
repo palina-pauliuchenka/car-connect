@@ -81,8 +81,8 @@ class schedule_screen : AppCompatActivity() {
             val selectedDestination = destinationSpinner.selectedItem.toString()
 
             val eta: Timestamp = combineDateAndTime(selectedDate, selectedTime)
-            Toast.makeText(this, "${eta}", Toast.LENGTH_SHORT).show()
-            // fetchDrivers(eta, selectedDestination)
+            // Toast.makeText(this, "${eta}", Toast.LENGTH_SHORT).show()
+            fetchDrivers(eta, selectedDestination)
         }
     }
 
