@@ -38,5 +38,18 @@
             android:padding="8dp"
             android:layout_marginTop="8dp"
             android:letterSpacing="0.02" />
+
+        <Button
+            android:id="@+id/update_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update Account" />
+
+        <Button
+            android:id="@+id/update_car_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update Car info" />
     </LinearLayout>
+
 </LinearLayout>

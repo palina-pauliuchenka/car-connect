@@ -22,6 +22,7 @@ class registration_screen : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
+    private lateinit var receivedString: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,9 @@ class registration_screen : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
+
+
+        receivedString = intent.getStringExtra("PARAM_KEY") ?: "Default Value"
 
         // Initialize Views
         val fullNameAsset = findViewById<EditText>(R.id.fullNameInput)
@@ -50,7 +54,12 @@ class registration_screen : AppCompatActivity() {
             val genderPreference = genderSpinnerAsset.selectedItem.toString()
             val homeAddress = homeAddressAsset.text.toString().trim()
 
-            signUpUser(fullName, email, password, phoneNumber, driveChoice, genderPreference, homeAddress)
+            if (receivedString == "Register-User")
+                signUpUser(fullName, email, password, phoneNumber, driveChoice, genderPreference, homeAddress)
+            else if (receivedString == "Update-User") {
+                val userId = auth.currentUser?.uid ?: ""
+                updateProfile(userId, fullName, email, phoneNumber, driveChoice, genderPreference, homeAddress)
+            }
         }
     }
 

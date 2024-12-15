@@ -23,7 +23,6 @@ class schedule_screen : AppCompatActivity() {
     private lateinit var selectedDate: String
     private lateinit var selectedTime: String
     private var userName: String = "N/A"
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
