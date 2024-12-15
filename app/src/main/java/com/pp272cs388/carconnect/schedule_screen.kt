@@ -105,7 +105,8 @@ class schedule_screen : AppCompatActivity() {
         // Submit button action
         submitButton.setOnClickListener {
             val selectedDestination = destinationSpinner.selectedItem.toString()
-            fetchDrivers(selectedDate, selectedTime, selectedDestination)
+            val eta = combineDateAndTime(selectedDate, selectedTime)
+            fetchDrivers(eta, selectedDestination)
         }
     }
 
@@ -113,7 +114,7 @@ class schedule_screen : AppCompatActivity() {
 
     }
 
-    private fun fetchDrivers(date: Timestamp, time: Timestamp, destination: String) {
+    private fun fetchDrivers(eta: Timestamp, destination: String) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
         firestore.collection("users")
@@ -137,7 +138,7 @@ class schedule_screen : AppCompatActivity() {
 
                 if (drivers.isNotEmpty()) {
                     // Display and save the drivers
-                    updateRideHistory(userId, driverName, driverId, destination)
+                    updateRideHistory(userId, driverName, driverId, destination, eta)
                     showDrivers(drivers)
                 } else {
                     // No available drivers
@@ -150,7 +151,7 @@ class schedule_screen : AppCompatActivity() {
             }
     }
 
-    private fun updateRideHistory(currentUserId: String?, driverName: String, driverId: String, selectedDestination: String) {
+    private fun updateRideHistory(currentUserId: String?, driverName: String, driverId: String, selectedDestination: String, eta: Timestamp) {
         if (currentUserId == null) {
             Toast.makeText(this, "No user is logged in.", Toast.LENGTH_SHORT).show()
             return
@@ -158,7 +159,7 @@ class schedule_screen : AppCompatActivity() {
 
         // Create a new ride entry
         val rideEntry = mapOf(
-            "ETA" to selectedTime,
+            "ETA" to eta,
             "destination" to selectedDestination,
             "driverId" to driverId,
             "driverName" to driverName
