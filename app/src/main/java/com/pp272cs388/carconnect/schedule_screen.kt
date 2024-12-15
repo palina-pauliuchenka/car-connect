@@ -3,6 +3,7 @@ package com.pp272cs388.carconnect
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
@@ -102,6 +103,9 @@ class schedule_screen : AppCompatActivity() {
                 fetchDrivers(eta, selectedDestination)
             else if (receivedString == "Driver")
                 fetchPedestrians(eta, selectedDestination)
+
+            val intent = Intent(this, match_found::class.java)
+            startActivity(intent)
         }
     }
 

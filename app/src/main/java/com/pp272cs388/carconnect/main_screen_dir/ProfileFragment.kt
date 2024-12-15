@@ -37,18 +37,11 @@ class ProfileFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         val updateAccButton = view.findViewById<Button>(R.id.update_account)
-        val updateCarButton = view.findViewById<Button>(R.id.update_car_info)
         // Let's first figure out the button update sequence
         updateAccButton.setOnClickListener {
             val intent = Intent(requireContext(), registration_screen::class.java)
             intent.putExtra("PARAM_KEY", "Update-User")
             startActivity(intent)
-        }
-        updateCarButton.setOnClickListener {
-            val intent = Intent(requireContext(), schedule_screen::class.java)
-
-            // intent.putExtra("PARAM_KEY", "Update-Car-Info")
-            // startActivity(intent)
         }
 
 
