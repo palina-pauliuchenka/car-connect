@@ -14,13 +14,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 import com.google.firebase.Timestamp
+import java.sql.Time
 
 
 class schedule_screen : AppCompatActivity() {
 
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var selectedDate: Timestamp
-    private lateinit var selectedTime: Timestamp
+    private lateinit var selectedDate: String
+    private lateinit var selectedTime: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,26 +45,10 @@ class schedule_screen : AppCompatActivity() {
             val calendar = Calendar.getInstance()
             val datePickerDialog = DatePickerDialog(this,
                 { _, year, month, day ->
-                    // Set the selected date in Calendar instance
-                    calendar.set(Calendar.YEAR, year)
-                    calendar.set(Calendar.MONTH, month)
-                    calendar.set(Calendar.DAY_OF_MONTH, day)
-                    calendar.set(Calendar.HOUR_OF_DAY, 0)
-                    calendar.set(Calendar.MINUTE, 0)
-                    calendar.set(Calendar.SECOND, 0)
-
-                    // Convert Calendar to Date
-                    val date = calendar.time
-
-                    // Convert Date to Firebase Timestamp
-                    val selectedDate = com.google.firebase.Timestamp(date)
-
-                    // Update button text (formatted date for display)
                     val sdf = SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH)
-                    dateButton.text = sdf.format(date)
-
-                    // Debugging or Log Output
-                    Log.d("DatePicker", "Selected Timestamp: $selectedDate")
+                    calendar.set(year, month, day)
+                    selectedDate = sdf.format(calendar.time)
+                    dateButton.text = selectedDate
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -77,36 +62,27 @@ class schedule_screen : AppCompatActivity() {
             val calendar = Calendar.getInstance()
             val timePickerDialog = TimePickerDialog(this,
                 { _, hour, minute ->
-                    // Set the time in the Calendar instance
+                    val sdf = SimpleDateFormat("h:mm a", Locale.ENGLISH)
                     calendar.set(Calendar.HOUR_OF_DAY, hour)
                     calendar.set(Calendar.MINUTE, minute)
-                    calendar.set(Calendar.SECOND, 0)
-
-                    // Convert the Calendar time to a Date object
-                    val date = calendar.time
-
-                    // Convert the Date object to a Firebase Timestamp
-                    val selectedTime = com.google.firebase.Timestamp(date)
-
-                    // Update button text (optional, for display)
-                    val sdf = SimpleDateFormat("h:mm a", Locale.ENGLISH)
-                    timeButton.text = sdf.format(date)
-
-                    // Debugging or Log Output
-                    Log.d("TimePicker", "Selected Timestamp: $selectedTime")
+                    selectedTime = sdf.format(calendar.time)
+                    timeButton.text = selectedTime
                 },
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
-                false // 12-hour format
+                false
             )
             timePickerDialog.show()
         }
 
+
         // Submit button action
         submitButton.setOnClickListener {
             val selectedDestination = destinationSpinner.selectedItem.toString()
-            val eta = combineDateAndTime(selectedDate, selectedTime)
-            fetchDrivers(eta, selectedDestination)
+
+            val eta: Timestamp = combineDateAndTime(selectedDate, selectedTime)
+            Toast.makeText(this, "${eta}", Toast.LENGTH_SHORT).show()
+            // fetchDrivers(eta, selectedDestination)
         }
     }
 
@@ -186,37 +162,35 @@ class schedule_screen : AppCompatActivity() {
         builder.show()
     }
 
-    private fun combineDateAndTime(dateTimestamp: Timestamp, timeTimestamp: Timestamp): Timestamp {
-        // Convert Firebase Timestamps to Date objects
-        val date = dateTimestamp.toDate()
-        val time = timeTimestamp.toDate()
+    fun combineDateAndTime(selectedDate: String, selectedTime: String): Timestamp {
+        // Parse the selectedDate (e.g., "December 12, 2024")
+        val dateFormat = SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH)
+        val parsedDate = dateFormat.parse(selectedDate)
 
-        // Extract date components
-        val calendarDate = Calendar.getInstance()
-        calendarDate.time = date
-        val year = calendarDate.get(Calendar.YEAR)
-        val month = calendarDate.get(Calendar.MONTH)
-        val day = calendarDate.get(Calendar.DAY_OF_MONTH)
+        // Parse the selectedTime (e.g., "2:30 PM")
+        val timeFormat = SimpleDateFormat("h:mm a", Locale.ENGLISH)
+        val parsedTime = timeFormat.parse(selectedTime)
 
-        // Extract time components
-        val calendarTime = Calendar.getInstance()
-        calendarTime.time = time
-        val hour = calendarTime.get(Calendar.HOUR_OF_DAY)
-        val minute = calendarTime.get(Calendar.MINUTE)
-        val second = calendarTime.get(Calendar.SECOND)
+        // Use Calendar to combine the two
+        val calendar = Calendar.getInstance()
 
-        // Combine date and time components into a new Calendar instance
-        val combinedCalendar = Calendar.getInstance()
-        combinedCalendar.set(Calendar.YEAR, year)
-        combinedCalendar.set(Calendar.MONTH, month)
-        combinedCalendar.set(Calendar.DAY_OF_MONTH, day)
-        combinedCalendar.set(Calendar.HOUR_OF_DAY, hour)
-        combinedCalendar.set(Calendar.MINUTE, minute)
-        combinedCalendar.set(Calendar.SECOND, second)
-        combinedCalendar.set(Calendar.MILLISECOND, 0) // Optional: Clear milliseconds
+        // Set the year, month, day from the parsedDate
+        calendar.time = parsedDate
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        // Convert the combined Calendar back to a Timestamp
-        return Timestamp(combinedCalendar.time)
+        // Set the hour and minute from the parsedTime
+        calendar.time = parsedTime
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        // Combine everything into a single Calendar instance
+        calendar.set(year, month, day, hour, minute, 0) // Seconds = 0
+        calendar.set(Calendar.MILLISECOND, 0) // Optional: clear milliseconds
+
+        // Convert to Firebase Timestamp
+        return Timestamp(calendar.time)
     }
 
 }
