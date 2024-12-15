@@ -13,12 +13,14 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
+import com.google.firebase.Timestamp
+
 
 class schedule_screen : AppCompatActivity() {
 
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var selectedDate: String
-    private lateinit var selectedTime: String
+    private lateinit var selectedDate: Timestamp
+    private lateinit var selectedTime: Timestamp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +44,26 @@ class schedule_screen : AppCompatActivity() {
             val calendar = Calendar.getInstance()
             val datePickerDialog = DatePickerDialog(this,
                 { _, year, month, day ->
+                    // Set the selected date in Calendar instance
+                    calendar.set(Calendar.YEAR, year)
+                    calendar.set(Calendar.MONTH, month)
+                    calendar.set(Calendar.DAY_OF_MONTH, day)
+                    calendar.set(Calendar.HOUR_OF_DAY, 0)
+                    calendar.set(Calendar.MINUTE, 0)
+                    calendar.set(Calendar.SECOND, 0)
+
+                    // Convert Calendar to Date
+                    val date = calendar.time
+
+                    // Convert Date to Firebase Timestamp
+                    val selectedDate = com.google.firebase.Timestamp(date)
+
+                    // Update button text (formatted date for display)
                     val sdf = SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH)
-                    calendar.set(year, month, day)
-                    selectedDate = sdf.format(calendar.time)
-                    dateButton.text = selectedDate
+                    dateButton.text = sdf.format(date)
+
+                    // Debugging or Log Output
+                    Log.d("DatePicker", "Selected Timestamp: $selectedDate")
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -59,15 +77,27 @@ class schedule_screen : AppCompatActivity() {
             val calendar = Calendar.getInstance()
             val timePickerDialog = TimePickerDialog(this,
                 { _, hour, minute ->
-                    val sdf = SimpleDateFormat("h:mm a", Locale.ENGLISH)
+                    // Set the time in the Calendar instance
                     calendar.set(Calendar.HOUR_OF_DAY, hour)
                     calendar.set(Calendar.MINUTE, minute)
-                    selectedTime = sdf.format(calendar.time)
-                    timeButton.text = selectedTime
+                    calendar.set(Calendar.SECOND, 0)
+
+                    // Convert the Calendar time to a Date object
+                    val date = calendar.time
+
+                    // Convert the Date object to a Firebase Timestamp
+                    val selectedTime = com.google.firebase.Timestamp(date)
+
+                    // Update button text (optional, for display)
+                    val sdf = SimpleDateFormat("h:mm a", Locale.ENGLISH)
+                    timeButton.text = sdf.format(date)
+
+                    // Debugging or Log Output
+                    Log.d("TimePicker", "Selected Timestamp: $selectedTime")
                 },
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
-                false
+                false // 12-hour format
             )
             timePickerDialog.show()
         }
@@ -83,7 +113,7 @@ class schedule_screen : AppCompatActivity() {
 
     }
 
-    private fun fetchDrivers(date: String, time: String, destination: String) {
+    private fun fetchDrivers(date: Timestamp, time: Timestamp, destination: String) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
         firestore.collection("users")
@@ -94,7 +124,6 @@ class schedule_screen : AppCompatActivity() {
                 var carName = ""
                 var driverName = ""
                 var driverId = ""
-                var destination = ""
                 for (document in querySnapshot) {
                     if (document.id == userId) {
                         continue
@@ -103,13 +132,12 @@ class schedule_screen : AppCompatActivity() {
                     carName = document.getString("carName") ?: "Unknown Car"
                     driverName = document.getString("fullName") ?: "Unknown Driver"
                     driverId = document.id
-                    destination = des
                     drivers.add("$driverName - $carName")
                 }
 
                 if (drivers.isNotEmpty()) {
                     // Display and save the drivers
-                    updateRideHistory(userId, driverName, driverId, "156 Summit str.")
+                    updateRideHistory(userId, driverName, driverId, destination)
                     showDrivers(drivers)
                 } else {
                     // No available drivers
@@ -156,4 +184,38 @@ class schedule_screen : AppCompatActivity() {
         builder.setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
         builder.show()
     }
+
+    private fun combineDateAndTime(dateTimestamp: Timestamp, timeTimestamp: Timestamp): Timestamp {
+        // Convert Firebase Timestamps to Date objects
+        val date = dateTimestamp.toDate()
+        val time = timeTimestamp.toDate()
+
+        // Extract date components
+        val calendarDate = Calendar.getInstance()
+        calendarDate.time = date
+        val year = calendarDate.get(Calendar.YEAR)
+        val month = calendarDate.get(Calendar.MONTH)
+        val day = calendarDate.get(Calendar.DAY_OF_MONTH)
+
+        // Extract time components
+        val calendarTime = Calendar.getInstance()
+        calendarTime.time = time
+        val hour = calendarTime.get(Calendar.HOUR_OF_DAY)
+        val minute = calendarTime.get(Calendar.MINUTE)
+        val second = calendarTime.get(Calendar.SECOND)
+
+        // Combine date and time components into a new Calendar instance
+        val combinedCalendar = Calendar.getInstance()
+        combinedCalendar.set(Calendar.YEAR, year)
+        combinedCalendar.set(Calendar.MONTH, month)
+        combinedCalendar.set(Calendar.DAY_OF_MONTH, day)
+        combinedCalendar.set(Calendar.HOUR_OF_DAY, hour)
+        combinedCalendar.set(Calendar.MINUTE, minute)
+        combinedCalendar.set(Calendar.SECOND, second)
+        combinedCalendar.set(Calendar.MILLISECOND, 0) // Optional: Clear milliseconds
+
+        // Convert the combined Calendar back to a Timestamp
+        return Timestamp(combinedCalendar.time)
+    }
+
 }
