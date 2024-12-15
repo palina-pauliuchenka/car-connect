@@ -1,6 +1,6 @@
 #!/bin/bash
 
-branch="user-schedule-form"
+branch="update-account-info"
 
 # Prompt the user for input
 echo "Currently operating on branch: $branch"
