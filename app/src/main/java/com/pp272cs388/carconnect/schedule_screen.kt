@@ -22,6 +22,8 @@ class schedule_screen : AppCompatActivity() {
     private lateinit var firestore: FirebaseFirestore
     private lateinit var selectedDate: String
     private lateinit var selectedTime: String
+    private lateinit var userName: String
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,16 @@ class schedule_screen : AppCompatActivity() {
         val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, destinations)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         destinationSpinner.adapter = spinnerAdapter
+
+
+        val currentUserId = auth.currentUser?.uid ?: ""
+        firestore.collection("users").document(currentUserId).get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    userName = document.getString("fullName") ?: "N/A"
+                }
+            }
+
 
         // Date picker
         dateButton.setOnClickListener {
@@ -99,7 +111,7 @@ class schedule_screen : AppCompatActivity() {
             .whereEqualTo("driveChoice", "No")
             .get()
             .addOnSuccessListener { querySnapshot ->
-                val peds = mutableListOf<String>()
+                // val peds = mutableListOf<String>()
                 var pedName = ""
                 var pedId = ""
                 for (document in querySnapshot) {
@@ -146,7 +158,9 @@ class schedule_screen : AppCompatActivity() {
                 if (drivers.isNotEmpty()) {
                     // Display and save the drivers
                     updateRideHistory(userId, driverName, driverId, destination, eta, true)
-                    showDrivers(drivers)
+                    updateRideHistory(driverId, userName, userId, destination, eta, false) // Update the driver name here
+                    // showDrivers(drivers)
+
                 } else {
                     // No available drivers
                     Toast.makeText(this, "No available drivers found.", Toast.LENGTH_SHORT).show()

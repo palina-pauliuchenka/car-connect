@@ -51,7 +51,6 @@ class HomeFragment : Fragment() {
 
             // Pass parameters using putExtra (key-value pairs)
             intent.putExtra("PARAM_KEY", "Pedestrian")
-
             startActivity(intent)
         }
         findPassengerButton.setOnClickListener {
@@ -59,7 +58,6 @@ class HomeFragment : Fragment() {
 
             // Pass parameters using putExtra (key-value pairs)
             intent.putExtra("PARAM_KEY", "Driver")
-
             startActivity(intent)
         }
 
