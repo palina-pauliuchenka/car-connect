@@ -125,6 +125,7 @@ class schedule_screen : AppCompatActivity() {
                 }
 
                 updateRideHistory(userId, pedName, pedId, destination, eta, false)
+                updateRideHistory(pedId, userName, userId, destination, eta, true) // Update the driver name here
             }
             .addOnFailureListener { exception ->
                 Log.e("FirestoreError", "Error fetching drivers: ${exception.message}")
@@ -158,7 +159,7 @@ class schedule_screen : AppCompatActivity() {
                 if (drivers.isNotEmpty()) {
                     // Display and save the drivers
                     updateRideHistory(userId, driverName, driverId, destination, eta, true)
-                    updateRideHistory(driverId, userName, userId, destination, eta, false) // Update the driver name here
+                    updateRideHistory(driverId, userName, userId, destination, eta, false)
                     // showDrivers(drivers)
 
                 } else {
@@ -172,6 +173,7 @@ class schedule_screen : AppCompatActivity() {
             }
     }
 
+    // False - drivers, True - pedestrians
     private fun updateRideHistory(currentUserId: String?, driverName: String, driverId: String, selectedDestination: String, eta: Timestamp, type: Boolean) {
         if (currentUserId == null) {
             Toast.makeText(this, "No user is logged in.", Toast.LENGTH_SHORT).show()
