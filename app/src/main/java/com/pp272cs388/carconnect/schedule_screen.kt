@@ -105,6 +105,10 @@ class schedule_screen : AppCompatActivity() {
                 fetchPedestrians(eta, selectedDestination)
 
             val intent = Intent(this, match_found::class.java)
+
+            // Pass parameters using putExtra (key-value pairs)
+            intent.putExtra("Server", "Pedestrian")
+
             startActivity(intent)
         }
     }
