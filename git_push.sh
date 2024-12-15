@@ -1,6 +1,6 @@
 #!/bin/bash
 
-branch="update-account-info"
+branch="update-car-info"
 
 # Prompt the user for input
 echo "Currently operating on branch: $branch"
