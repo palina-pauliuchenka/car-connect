@@ -71,6 +71,8 @@ class login_signup_screen : AppCompatActivity() {
 
     // Sign-Up New User
     private fun signUpUser() {
-        startActivity(Intent(this, registration_screen::class.java))
+        val intent = Intent(this, registration_screen::class.java)
+        intent.putExtra("PARAM_KEY", "Register-User")
+        startActivity(intent)
     }
 }

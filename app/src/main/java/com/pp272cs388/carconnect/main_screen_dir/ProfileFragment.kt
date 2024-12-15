@@ -1,16 +1,20 @@
 package com.pp272cs388.carconnect.main_screen_dir
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.pp272cs388.carconnect.R
+import com.pp272cs388.carconnect.registration_screen
+import com.pp272cs388.carconnect.schedule_screen
 
 class ProfileFragment : Fragment() {
 
@@ -27,9 +31,26 @@ class ProfileFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
+
         // Initialize Firebase Auth and Firestore
         firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
+
+        val updateAccButton = view.findViewById<Button>(R.id.update_account)
+        val updateCarButton = view.findViewById<Button>(R.id.update_car_info)
+        // Let's first figure out the button update sequence
+        updateAccButton.setOnClickListener {
+            val intent = Intent(requireContext(), registration_screen::class.java)
+            intent.putExtra("PARAM_KEY", "Update-User")
+            startActivity(intent)
+        }
+        updateCarButton.setOnClickListener {
+            val intent = Intent(requireContext(), schedule_screen::class.java)
+
+            // intent.putExtra("PARAM_KEY", "Update-Car-Info")
+            // startActivity(intent)
+        }
+
 
         val profileInfoTextView = view.findViewById<TextView>(R.id.profileInfo)
 
