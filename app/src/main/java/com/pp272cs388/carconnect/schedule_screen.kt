@@ -34,6 +34,8 @@ class schedule_screen : AppCompatActivity() {
         val destinationSpinner = findViewById<Spinner>(R.id.destinationSpinner)
         val submitButton = findViewById<Button>(R.id.submitButton)
 
+        val receivedString = intent.getStringExtra("PARAM_KEY") ?: "Default Value"
+
         // Populate spinner with destinations (home or school)
         val destinations = arrayOf("141 Summit St. 07103", "156-182 Warren St. 07102") // Home, School
         val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, destinations)
@@ -82,11 +84,40 @@ class schedule_screen : AppCompatActivity() {
 
             val eta: Timestamp = combineDateAndTime(selectedDate, selectedTime)
             // Toast.makeText(this, "${eta}", Toast.LENGTH_SHORT).show()
-            fetchDrivers(eta, selectedDestination)
+
+            if (receivedString == "Pedestrian")
+                fetchDrivers(eta, selectedDestination)
+            else if (receivedString == "Driver")
+                fetchPedestrians(eta, selectedDestination)
         }
     }
 
-    private fun fetchPedestrians(date: String, time: String, destination: String) {
+    private fun fetchPedestrians(eta: Timestamp, destination: String) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
+        firestore.collection("users")
+            .whereEqualTo("driveChoice", "No")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val peds = mutableListOf<String>()
+                var pedName = ""
+                var pedId = ""
+                for (document in querySnapshot) {
+                    if (document.id == userId) {
+                        continue
+                    }
+
+                    pedName = document.getString("fullName") ?: "Unknown Pedestrian"
+                    pedId = document.id
+                    // drivers.add("$driverName - $carName")
+                }
+
+                updateRideHistory(userId, pedName, pedId, destination, eta, false)
+            }
+            .addOnFailureListener { exception ->
+                Log.e("FirestoreError", "Error fetching drivers: ${exception.message}")
+                Toast.makeText(this, "Failed to fetch drivers.", Toast.LENGTH_SHORT).show()
+            }
 
     }
 
@@ -114,7 +145,7 @@ class schedule_screen : AppCompatActivity() {
 
                 if (drivers.isNotEmpty()) {
                     // Display and save the drivers
-                    updateRideHistory(userId, driverName, driverId, destination, eta)
+                    updateRideHistory(userId, driverName, driverId, destination, eta, true)
                     showDrivers(drivers)
                 } else {
                     // No available drivers
@@ -127,21 +158,31 @@ class schedule_screen : AppCompatActivity() {
             }
     }
 
-    private fun updateRideHistory(currentUserId: String?, driverName: String, driverId: String, selectedDestination: String, eta: Timestamp) {
+    private fun updateRideHistory(currentUserId: String?, driverName: String, driverId: String, selectedDestination: String, eta: Timestamp, type: Boolean) {
         if (currentUserId == null) {
             Toast.makeText(this, "No user is logged in.", Toast.LENGTH_SHORT).show()
             return
         }
 
         // Create a new ride entry
-        val rideEntry = mapOf(
+
+        var rideEntry = mapOf(
             "ETA" to eta,
             "destination" to selectedDestination,
             "driverId" to driverId,
             "driverName" to driverName
         )
 
-        // Add to the current user's rideHistory
+        if (!type) {
+            rideEntry = mapOf(
+                "ETA" to eta,
+                "destination" to selectedDestination,
+                "pedId" to driverId,
+                "pedName" to driverName
+            )
+        }
+
+            // Add to the current user's rideHistory
         val userRef = firestore.collection("users").document(currentUserId)
         userRef.update("rideHistory", FieldValue.arrayUnion(rideEntry))
             .addOnSuccessListener {

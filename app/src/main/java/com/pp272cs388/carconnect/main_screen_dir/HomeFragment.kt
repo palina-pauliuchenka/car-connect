@@ -54,6 +54,14 @@ class HomeFragment : Fragment() {
 
             startActivity(intent)
         }
+        findPassengerButton.setOnClickListener {
+            val intent = Intent(requireContext(), schedule_screen::class.java)
+
+            // Pass parameters using putExtra (key-value pairs)
+            intent.putExtra("PARAM_KEY", "Driver")
+
+            startActivity(intent)
+        }
 
         return view
     }
