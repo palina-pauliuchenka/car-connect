@@ -1,6 +1,6 @@
 #!/bin/bash
 
-branch="update-car-info"
+branch="ride-cancelled"
 
 # Prompt the user for input
 echo "Currently operating on branch: $branch"

@@ -120,14 +120,21 @@ class schedule_screen : AppCompatActivity() {
                 // val peds = mutableListOf<String>()
                 var pedName = ""
                 var pedId = ""
-                for (document in querySnapshot) {
+                /*for (document in querySnapshot) {
                     if (document.id == userId) {
                         continue
                     }
+                }*/
 
-                    pedName = document.getString("fullName") ?: "Unknown Pedestrian"
-                    pedId = document.id
-                    // drivers.add("$driverName - $carName")
+                val filteredDocuments = querySnapshot.filter { it.id != userId }
+
+                if (filteredDocuments.isNotEmpty()) {
+                    val randomDocument = filteredDocuments.random()
+
+                    pedName = randomDocument.getString("fullName") ?: "Unknown Driver"
+                    pedId = randomDocument.id
+                } else {
+                    Log.d("RandomDriver", "No passengers found.")
                 }
 
 
@@ -151,37 +158,37 @@ class schedule_screen : AppCompatActivity() {
         firestore.collection("users")
             .whereEqualTo("driveChoice", "Yes")
             .get()
-            .addOnSuccessListener { querySnapshot ->
+            .addOnSuccessListener {
+                querySnapshot ->
                 val drivers = mutableListOf<String>()
                 var carName = ""
                 var driverName = ""
                 var driverId = ""
-                for (document in querySnapshot) {
+                /*for (document in querySnapshot) {
                     if (document.id == userId) {
                         continue
                     }
+                }*/
 
-                    carName = document.getString("carName") ?: "Unknown Car"
-                    driverName = document.getString("fullName") ?: "Unknown Driver"
-                    driverId = document.id
-                    drivers.add("$driverName - $carName")
-                }
+                val filteredDocuments = querySnapshot.filter { it.id != userId }
 
-                if (drivers.isNotEmpty()) {
-                    // Display and save the drivers
+                if (filteredDocuments.isNotEmpty()) {
+                    val randomDocument = filteredDocuments.random()
 
-                    updateRideHistory(userId, driverName, driverId, destination, eta, true)
-                    updateRideHistory(driverId, userName, userId, destination, eta, false)
-                    // producer = driverName
-                    val intent = Intent(this, match_found::class.java)
-                    intent.putExtra("info", "Driver Found! \n Driver: ${driverName}")
-                    startActivity(intent)
-                // showDrivers(drivers)
-
+                    carName = randomDocument.getString("carName") ?: "Unknown Car"
+                    driverName = randomDocument.getString("fullName") ?: "Unknown Driver"
+                    driverId = randomDocument.id
+                    Log.d("RandomDriver", "Selected driver: $driverName")
                 } else {
-                    // No available drivers
-                    Toast.makeText(this, "No available drivers found.", Toast.LENGTH_SHORT).show()
+                    Log.d("RandomDriver", "No drivers found.")
                 }
+
+                updateRideHistory(userId, driverName, driverId, destination, eta, true)
+                updateRideHistory(driverId, userName, userId, destination, eta, false)
+                // producer = driverName
+                val intent = Intent(this, match_found::class.java)
+                intent.putExtra("info", "Driver Found! \n Driver: ${driverName}")
+                startActivity(intent)
             }
             .addOnFailureListener { exception ->
                 Log.e("FirestoreError", "Error fetching drivers: ${exception.message}")
@@ -224,15 +231,6 @@ class schedule_screen : AppCompatActivity() {
                 Log.e("FirestoreError", "Error updating ride history: ${exception.message}")
                 Toast.makeText(this, "Failed to update ride history.", Toast.LENGTH_SHORT).show()
             }
-    }
-
-
-    private fun showDrivers(drivers: List<String>) {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Available Drivers")
-        builder.setItems(drivers.toTypedArray()) { _, _ -> }
-        builder.setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-        builder.show()
     }
 
     fun combineDateAndTime(selectedDate: String, selectedTime: String): Timestamp {
