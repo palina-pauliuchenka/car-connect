@@ -103,8 +103,8 @@ class schedule_screen : AppCompatActivity() {
             val intent = Intent(this, match_found::class.java)
 
             if (receivedString == "Pedestrian"){
-                intent.putExtra("info", "Driver Found! \n Driver: ${producer}")
                 fetchDrivers(eta, selectedDestination)
+                intent.putExtra("info", "Driver Found! \n Driver: ${producer}")
             }
 
             else if (receivedString == "Driver") {
