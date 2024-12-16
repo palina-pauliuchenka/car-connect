@@ -31,7 +31,6 @@ class registration_screen : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-
         receivedString = intent.getStringExtra("PARAM_KEY") ?: "Default Value"
 
         // Initialize Views

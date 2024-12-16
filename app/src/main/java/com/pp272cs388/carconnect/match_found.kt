@@ -18,7 +18,12 @@ class match_found : AppCompatActivity() {
         // Buttons functionality
         val acceptButton = findViewById<Button>(R.id.accept_button)
         val denyButton = findViewById<Button>(R.id.deny_button)
+        val logo = findViewById<TextView>(R.id.logo)
         // Let's first figure out the button update sequence
+
+        val receivedString = intent.getStringExtra("info") ?: "N/A"
+        logo.text = receivedString
+
         acceptButton.setOnClickListener {
             val intent = Intent(this, main_screen::class.java)
             Toast.makeText(this, "Accepted Ride!", Toast.LENGTH_SHORT).show()

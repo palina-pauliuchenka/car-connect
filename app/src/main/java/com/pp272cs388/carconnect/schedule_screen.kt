@@ -24,6 +24,7 @@ class schedule_screen : AppCompatActivity() {
     private lateinit var selectedDate: String
     private lateinit var selectedTime: String
     private var userName: String = "N/A"
+    private var producer: String = "N/A"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,10 +102,10 @@ class schedule_screen : AppCompatActivity() {
 
             if (receivedString == "Pedestrian")
                 fetchDrivers(eta, selectedDestination)
+
             else if (receivedString == "Driver")
                 fetchPedestrians(eta, selectedDestination)
 
-            val intent = Intent(this, match_found::class.java)
             startActivity(intent)
         }
     }
@@ -129,8 +130,13 @@ class schedule_screen : AppCompatActivity() {
                     // drivers.add("$driverName - $carName")
                 }
 
+
                 updateRideHistory(userId, pedName, pedId, destination, eta, false)
                 updateRideHistory(pedId, userName, userId, destination, eta, true) // Update the driver name here
+                // producer = pedName
+                val intent = Intent(this, match_found::class.java)
+                intent.putExtra("info", "Passenger Found! \n Passenger: ${pedName}")
+                startActivity(intent)
             }
             .addOnFailureListener { exception ->
                 Log.e("FirestoreError", "Error fetching drivers: ${exception.message}")
@@ -163,9 +169,14 @@ class schedule_screen : AppCompatActivity() {
 
                 if (drivers.isNotEmpty()) {
                     // Display and save the drivers
+
                     updateRideHistory(userId, driverName, driverId, destination, eta, true)
                     updateRideHistory(driverId, userName, userId, destination, eta, false)
-                    showDrivers(drivers)
+                    // producer = driverName
+                    val intent = Intent(this, match_found::class.java)
+                    intent.putExtra("info", "Driver Found! \n Driver: ${driverName}")
+                    startActivity(intent)
+                // showDrivers(drivers)
 
                 } else {
                     // No available drivers
