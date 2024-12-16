@@ -148,13 +148,41 @@ this section]
 
 ## Completed user stories
 
-- List the completed user stories from this unit
-- List any pending user stories / any user stories you decided to cut
-  from the original requirements
+- Account registration
+- Account login
+- Profile Creation
+- Driver Side
+- Passenger Side
+- Matching Driver with Passenger
+- Matching Passenger with Driver
+- Ride history view
+- Update profile information
+- Accept or deny rides / passengers
 
-[Add video/gif of your current application that shows build progress]
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+Account login for the first timers, gives an error as registration first is required.
+
+![gif walkthrough](gif-1.gif)
+
+Account registration + profile form fill out.
+
+![gif walkthrough](gif-2.gif)
+
+After creating an account user has to confirm student email.
+
+![gif walkthrough](gif-6.gif)
+
+Account Login after successful registration.
+
+![gif walkthrough](gif-3.gif)
+
+Finding a ride, accepting the match, showing the history.
+![gif walkthrough](gif-4.gif)
+
+After user updated their profile, and selected "yes" in the dropdown for offering to carpool student. He is able to look for rides and passengers, this gif showcases how driver matches with the passenger.
+![gif walkthrough](gif-5.gif)
+
 
 ## App Demo Video
 
 - Embed the YouTube/Vimeo link of your Completed Demo Day prep video
+
