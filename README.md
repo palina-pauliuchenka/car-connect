@@ -1,7 +1,7 @@
 # Car Connect
 An android application that helps students to find Carpool to get to the campus.
 
-## Important External Links
+## Important External & Internal Links
 
 - [Project Managment (Kanban)](https://github.com/users/palina-pauliuchenka/projects/18/views/1)
 - [HackMD - Overview](https://hackmd.io/@car-connect/Bkm0vc77kx)
