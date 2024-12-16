@@ -100,17 +100,11 @@ class schedule_screen : AppCompatActivity() {
             val eta: Timestamp = combineDateAndTime(selectedDate, selectedTime)
             // Toast.makeText(this, "${eta}", Toast.LENGTH_SHORT).show()
 
-            val intent = Intent(this, match_found::class.java)
-
-            if (receivedString == "Pedestrian"){
+            if (receivedString == "Pedestrian")
                 fetchDrivers(eta, selectedDestination)
-                intent.putExtra("info", "Driver Found! \n Driver: ${producer}")
-            }
 
-            else if (receivedString == "Driver") {
+            else if (receivedString == "Driver")
                 fetchPedestrians(eta, selectedDestination)
-                intent.putExtra("info", "Passenger Found! \n Passenger: ${producer}")
-            }
 
             startActivity(intent)
         }
@@ -136,9 +130,13 @@ class schedule_screen : AppCompatActivity() {
                     // drivers.add("$driverName - $carName")
                 }
 
-                producer = pedName
+
                 updateRideHistory(userId, pedName, pedId, destination, eta, false)
                 updateRideHistory(pedId, userName, userId, destination, eta, true) // Update the driver name here
+                // producer = pedName
+                val intent = Intent(this, match_found::class.java)
+                intent.putExtra("info", "Passenger Found! \n Passenger: ${pedName}")
+                startActivity(intent)
             }
             .addOnFailureListener { exception ->
                 Log.e("FirestoreError", "Error fetching drivers: ${exception.message}")
@@ -171,10 +169,14 @@ class schedule_screen : AppCompatActivity() {
 
                 if (drivers.isNotEmpty()) {
                     // Display and save the drivers
-                    producer = driverName
+
                     updateRideHistory(userId, driverName, driverId, destination, eta, true)
                     updateRideHistory(driverId, userName, userId, destination, eta, false)
-                    showDrivers(drivers)
+                    // producer = driverName
+                    val intent = Intent(this, match_found::class.java)
+                    intent.putExtra("info", "Driver Found! \n Driver: ${driverName}")
+                    startActivity(intent)
+                // showDrivers(drivers)
 
                 } else {
                     // No available drivers
