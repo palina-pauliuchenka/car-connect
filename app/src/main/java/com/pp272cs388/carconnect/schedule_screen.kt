@@ -24,6 +24,7 @@ class schedule_screen : AppCompatActivity() {
     private lateinit var selectedDate: String
     private lateinit var selectedTime: String
     private var userName: String = "N/A"
+    private var producer: String = "N/A"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,15 +100,17 @@ class schedule_screen : AppCompatActivity() {
             val eta: Timestamp = combineDateAndTime(selectedDate, selectedTime)
             // Toast.makeText(this, "${eta}", Toast.LENGTH_SHORT).show()
 
-            if (receivedString == "Pedestrian")
-                fetchDrivers(eta, selectedDestination)
-            else if (receivedString == "Driver")
-                fetchPedestrians(eta, selectedDestination)
-
             val intent = Intent(this, match_found::class.java)
 
-            // Pass parameters using putExtra (key-value pairs)
-            intent.putExtra("Server", "Pedestrian")
+            if (receivedString == "Pedestrian"){
+                intent.putExtra("info", "Driver Found! \n Driver: ${producer}")
+                fetchDrivers(eta, selectedDestination)
+            }
+
+            else if (receivedString == "Driver") {
+                fetchPedestrians(eta, selectedDestination)
+                intent.putExtra("info", "Passenger Found! \n Passenger: ${producer}")
+            }
 
             startActivity(intent)
         }
@@ -133,6 +136,7 @@ class schedule_screen : AppCompatActivity() {
                     // drivers.add("$driverName - $carName")
                 }
 
+                producer = pedName
                 updateRideHistory(userId, pedName, pedId, destination, eta, false)
                 updateRideHistory(pedId, userName, userId, destination, eta, true) // Update the driver name here
             }
@@ -167,6 +171,7 @@ class schedule_screen : AppCompatActivity() {
 
                 if (drivers.isNotEmpty()) {
                     // Display and save the drivers
+                    producer = driverName
                     updateRideHistory(userId, driverName, driverId, destination, eta, true)
                     updateRideHistory(driverId, userName, userId, destination, eta, false)
                     showDrivers(drivers)
